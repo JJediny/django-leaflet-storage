@@ -198,7 +198,7 @@ class MapView(MapDetailMixin, DetailView):
         if self.object.owner:
             settings['properties']['author'] = {
                 'name': self.object.owner.get_username(),
-                'link': reverse('user_maps', args=(self.object.owner.get_username(), ))
+                #'link': reverse('user_maps', args=(self.object.owner.get_username(), ))
             }
         return settings
 

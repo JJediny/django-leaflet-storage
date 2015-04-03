@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "site_base.html" %}
 <head>
     <title>{% block title %}Leaflet Storage Map{% endblock %}</title>
     {% block extra_head %}
@@ -11,20 +10,23 @@
     {% block body %}
         <div id="header">
             {% block header %}
+            {{ block.super }}
             {% endblock %}
         </div>
         <div id="sidebar">
             {% block sidebar %}
+            {{ block.super }}
             {% endblock %}
         </div>
         <div id="content">
             {% block content %}
+            {{ block.super }}
             {% endblock %}
         </div>
         <div id="footer">
             {% block footer %}
+            {{ block.super }}
             {% endblock %}
         </div>
     {% endblock %}
 </body>
-</html>
