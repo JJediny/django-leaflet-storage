@@ -1,12 +1,20 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import login
+from django.views.generic import TemplateView
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache, cache_control
+from tastypie.api import Api
 
 from . import views
+from geonode.urls import *
+from geonode.api.urls import api
+from .api import GeoJsonResource
+
 from .decorators import jsonize_view, map_permissions_check,\
     login_required_if_not_anonymous_allowed
 from .utils import decorated_patterns
+
+api.register(GeoJsonResource())
 
 urlpatterns = patterns('',
     url(r'^login/$', jsonize_view(login), name='login'),
@@ -17,6 +25,9 @@ urlpatterns = patterns('',
     url(r'^map/anonymous-edit/(?P<signature>.+)$', views.MapAnonymousEditUrl.as_view(), name='map_anonymous_edit_url'),
     url(r'^m/(?P<pk>\d+)/$', views.MapShortUrl.as_view(), name='map_short_url'),
     url(r'^pictogram/json/$', views.PictogramJSONList.as_view(), name='pictogram_list_json'),
+    url(r'^map/json/$', views.MapJSONList.as_view(), name='map_list_json'),
+    url(r'^map/list/$', views.MapList.as_view(), name='map_list'),
+    url(r'', include(api.urls)),
 )
 urlpatterns += decorated_patterns('', [cache_control(must_revalidate=True), ],
     url(r'^datalayer/(?P<pk>[\d]+)/$', views.DataLayerView.as_view(), name='datalayer_view'),

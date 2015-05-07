@@ -16,6 +16,7 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils import simplejson
+from django.core import serializers
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic import DetailView
@@ -26,7 +27,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.http import http_date
 from django.middleware.gzip import re_accepts_gzip
 from django.utils.translation import to_locale
+from tastypie.api import Api
+from django.utils import simplejson
+from django.http import HttpResponse
 
+from .api import GeoJsonResource
 from .models import Map, DataLayer, TileLayer, Pictogram, Licence
 from .utils import get_uri_template, gzip_file
 from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
@@ -35,7 +40,9 @@ from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
 
 User = get_user_model()
 ANONYMOUS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # One month
+api = Api(api_name='api')
 
+api.register(GeoJsonResource())
 
 # ############## #
 #     Utils      #
@@ -143,7 +150,7 @@ class MapDetailMixin(object):
     def get_geojson(self):
         return {
             "geometry": {
-                "coordinates": [DEFAULT_LONGITUDE, DEFAULT_LATITUDE],
+                "coordinates": [-94, 23],
                 "type": "Point"
             },
             "properties": {
@@ -154,6 +161,14 @@ class MapDetailMixin(object):
     def get_short_url(self):
         return None
 
+    def map_list_view(request):
+        to_json = {
+            "slug": "self.object.slug",
+            }
+        return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
+
+class MapList(MapDetailMixin, TemplateView):
+    template_name = "leaflet_storage/map_list.html"
 
 class MapView(MapDetailMixin, DetailView):
 
@@ -516,6 +531,15 @@ class PictogramJSONList(ListView):
         content = [p.json for p in Pictogram.objects.all()]
         return simple_json_response(pictogram_list=content)
 
+################
+# Map List      #
+################
+
+class MapJSONList(ListView):
+    model = Map
+
+    def render_to_response(self, context, **response_kwargs):
+        return simple_json_response(serializers.serialize("json", Map.objects.all()))
 
 # ############## #
 #     Generic    #
