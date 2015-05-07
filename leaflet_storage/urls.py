@@ -3,7 +3,6 @@ from django.contrib.auth.views import login
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache, cache_control
-from tastypie.api import Api
 
 from . import views
 from geonode.urls import *
