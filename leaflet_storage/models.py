@@ -10,10 +10,21 @@ from django.core.signing import Signer
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 from django.core.files.base import File
+from guardian.shortcuts import get_objects_for_user
+from taggit.models import Tag
 
 from .fields import DictField
 from .managers import PublicManager
+#from tastypie import fields
+#from tastypie.resources import ModelResource
+#from tastypie.constants import ALL
+#from tastypie.utils import trailing_slash
+#from .models import Map
 
+#class GeoJSONMapResource(ModelResource):
+#    class Meta:
+#        queryset = Map.objects.all()
+#        resource_name = 'geojson'
 
 class NamedModel(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("name"))
@@ -214,13 +225,25 @@ class Map(NamedModel):
             datalayer.clone(map_inst=new)
         return new
 
+    @property
+    def json(self):
+        return {
+            "id": self.pk,
+            "description": self.description,
+            #"modified_at":self.modified_at,
+            #"tilelayer":self.tilelayer,
+            #"owner":self.owner,
+            #"editors":self.editors,
+            #"edit_status":self.edit_status,
+            #"share_status":self.share_status,
+        }
 
 class Pictogram(NamedModel):
     """
     An image added to an icon of the map.
     """
     attribution = models.CharField(max_length=300)
-    pictogram = models.ImageField(upload_to="pictogram")
+    pictogram = models.FileField(upload_to="pictogram")
 
     @property
     def json(self):

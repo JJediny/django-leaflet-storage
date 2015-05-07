@@ -1,10 +1,22 @@
-{% for map_inst in maps %}
-<hr />
-<div class="col wide">
-    {% map_fragment map_inst %}
-    <div class="legend"><a href="{{ map_inst.get_absolute_url }}">{{ map_inst.name }}</a>{% if map_inst.owner %} <em>{% trans "by" %} <a href="{% url 'user_maps' map_inst.owner.username %}">{{ map_inst.owner }}</a></em>{% endif %}</div>
-</div>
+{% extends "site_base.html" %}
+{% load i18n %}
+
+{% block middle %}
+<h2>{% trans "GeoJSON Editor" %}</h2>
+
+<p>{% trans "Testing" %}</p>
+
+<table class="table table-hover table-bordered table-striped">
+<caption>{% trans "GeoJSON Maps" %}</caption>
+<thead>
+<tr><th>{% trans "Maps" %}</th></tr>
+</thead>
+<tbody>
+{% for map in maps %}
+<tr><th><a href='{{ object.get_absolute_url }}'>{{ object.name }}</a></th></tr>
+<tr><td>{{ object.description }}</td></tr>
 {% endfor %}
-{% if maps.has_next %}
-<div class="col wide"><a href="?{% paginate_querystring maps.next_page_number %}" class="button more_button neutral">{% trans "More" %}</a></div>
-{% endif %}
+</tbody>
+</table>
+
+{% endblock %}
