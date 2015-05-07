@@ -40,9 +40,6 @@ from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
 
 User = get_user_model()
 ANONYMOUS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # One month
-api = Api(api_name='api')
-
-api.register(GeoJsonResource())
 
 # ############## #
 #     Utils      #
