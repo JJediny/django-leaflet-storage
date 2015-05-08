@@ -27,7 +27,6 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.http import http_date
 from django.middleware.gzip import re_accepts_gzip
 from django.utils.translation import to_locale
-from tastypie.api import Api
 from django.utils import simplejson
 from django.http import HttpResponse
 
