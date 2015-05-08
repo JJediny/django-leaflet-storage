@@ -31,7 +31,7 @@ from tastypie.api import Api
 from django.utils import simplejson
 from django.http import HttpResponse
 
-from .api import GeoJsonResource
+#from .api import GeoJsonResource, DataLayerResource, PictogramResource
 from .models import Map, DataLayer, TileLayer, Pictogram, Licence
 from .utils import get_uri_template, gzip_file
 from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,

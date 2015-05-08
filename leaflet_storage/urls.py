@@ -3,18 +3,19 @@ from django.contrib.auth.views import login
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache, cache_control
-from tastypie.api import Api
 
 from . import views
 from geonode.urls import *
 from geonode.api.urls import api
-from .api import GeoJsonResource
+from .api import GeoJsonResource, DataLayerResource, PictogramResource
 
 from .decorators import jsonize_view, map_permissions_check,\
     login_required_if_not_anonymous_allowed
 from .utils import decorated_patterns
 
 api.register(GeoJsonResource())
+api.register(PictogramResource())
+api.register(DataLayerResource())
 
 urlpatterns = patterns('',
     url(r'^login/$', jsonize_view(login), name='login'),
