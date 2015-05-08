@@ -11,11 +11,7 @@ from tastypie.resources import ModelResource
 from tastypie.constants import ALL
 from tastypie.utils import trailing_slash
 
-<<<<<<< HEAD
 from .models import Map, Pictogram, DataLayer
-=======
-from .models import Map
->>>>>>> 3502ddc95402d7f044156f597f1322f3a96d8f1f
 
 class GeoJsonResource(ModelResource):
     class Meta:
@@ -23,7 +19,6 @@ class GeoJsonResource(ModelResource):
         resource_name = 'geojson'
         allowed_methods = ['get']
 
-<<<<<<< HEAD
 class PictogramResource(ModelResource):
     class Meta:
         queryset = Pictogram.objects.all()
@@ -35,5 +30,3 @@ class DataLayerResource(ModelResource):
         queryset = DataLayer.objects.all()
         resource_name = 'datalayer'
         allowed_methods = ['get']
-=======
->>>>>>> 3502ddc95402d7f044156f597f1322f3a96d8f1f
