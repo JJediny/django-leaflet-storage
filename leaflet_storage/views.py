@@ -552,3 +552,18 @@ class LoginPopupEnd(TemplateView):
     Basically close the popup.
     """
     template_name = "leaflet_storage/login_popup_end.html"
+
+
+########################
+#                   API Lists
+########################
+
+class ListMap(TemplateView):
+    template_name = "leaflet_storage/api_map.html"
+
+class ListPictogram(TemplateView):
+    template_name = "leaflet_storage/api_pictogram.html"
+
+class ListDataLayer(TemplateView):
+    template_name = "leaflet_storage/api_datalayer.html.html"
+    

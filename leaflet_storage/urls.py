@@ -18,6 +18,13 @@ api.register(PictogramResource())
 api.register(DataLayerResource())
 
 urlpatterns = patterns('',
+    # Static List Views from API
+    url(r'', include(api.urls)),
+    #url(r'^list/$', views.ListAll.as_view(), name='geojson_list'),
+    url(r'^list/map/$', views.ListMap.as_view(), name='map_list'),
+    url(r'^list/pictogram/$', views.ListPictogram.as_view(), name='pictogram_list'),
+    url(r'^list/datalayer/$', views.ListDataLayer.as_view(), name='datalayer_list'),
+    #Django-leaflet-storage
     url(r'^login/$', jsonize_view(login), name='login'),
     url(r'^login/popup/end/$', views.LoginPopupEnd.as_view(), name='login_popup_end'),
     url(r'^logout/$', views.logout, name='logout'),
@@ -26,9 +33,6 @@ urlpatterns = patterns('',
     url(r'^map/anonymous-edit/(?P<signature>.+)$', views.MapAnonymousEditUrl.as_view(), name='map_anonymous_edit_url'),
     url(r'^m/(?P<pk>\d+)/$', views.MapShortUrl.as_view(), name='map_short_url'),
     url(r'^pictogram/json/$', views.PictogramJSONList.as_view(), name='pictogram_list_json'),
-    url(r'^map/json/$', views.MapJSONList.as_view(), name='map_list_json'),
-    url(r'^map/list/$', views.MapList.as_view(), name='map_list'),
-    url(r'', include(api.urls)),
 )
 urlpatterns += decorated_patterns('', [cache_control(must_revalidate=True), ],
     url(r'^datalayer/(?P<pk>[\d]+)/$', views.DataLayerView.as_view(), name='datalayer_view'),
